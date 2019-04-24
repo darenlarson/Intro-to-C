@@ -3,6 +3,7 @@
 #include <time.h>
 #include "lib.h"
 
+
 /*
     Duplicates the input string by dynamically allocating memory for 
     the duplicate string using `malloc` and then copying the string
@@ -12,8 +13,24 @@
 */
 char *string_dup(char *src)
 {
+    // get the length of the string src
+    int length = string_length(src);
+    printf("length: %d\n", length);
 
+    // create memory block for duplicate string. Add 1 to account for terminator \0
+    char *duplicate_str = malloc(length + 1);
+
+    // copy over src string into duplicate_str
+    for (int i = 0; i <= length; i++)
+    {
+        duplicate_str[i] = src[i];
+    }
+
+    // return the pointer duplicate_str
+    printf("%s\n", duplicate_str);
+    return duplicate_str;
 }
+
 
 /*
     A generic version of string_copy, mem_copy receives a block of memory
@@ -24,8 +41,19 @@ char *string_dup(char *src)
 */
 void mem_copy(void *dest, const void *src, int n)
 {
+    // cast src as a char pointer
+    char *cast_src = (char *) src;
 
+    // cast dest as a char pointer
+    char *cast_dest = (char *) dest;
+
+    // copy src to dest
+    for (int i = 0; i < n; i++)
+    {
+        cast_dest[i] = cast_src[i];
+    }
 }
+
 
 /*
     Given a pointer of `malloc`'d memory, this function will 
@@ -40,8 +68,39 @@ void mem_copy(void *dest, const void *src, int n)
 */
 void *resize_memory(void *ptr, int old_size, int new_size)
 {
+    // casting ptr as char
+    char *cast_ptr = ptr;
 
+    // create the new block of memory
+    char *new_block = malloc(new_size * sizeof(char));
+
+    // copy data over
+    for (int i = 0; i < old_size; i++)
+    {
+        if (i == new_size)
+        {
+            break;
+        }
+
+        *(new_block + i) = *(cast_ptr + i);
+    }
+
+    return new_block;
 }
+
+// int main(void)
+// {
+//     // ----- Test for string_dup -----
+//     // char *src = "LambdaSchool";
+//     // string_dup(src);
+
+//     // ----- Test for mem_copy -----
+//     // mem_copy();
+
+//     return 0;
+// }
+
+
 
 #ifndef TESTING
 int main(void)
